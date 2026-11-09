@@ -1,14 +1,23 @@
 # Product Marketing Context
 
-**Document version:** v1 (borrador, pendiente de revisión de Juan)
+**Document version:** v2
 **Last updated:** 2026-11-09
 
-> Borrador armado a partir del repo (README y textos del catálogo `pedidos`)
-> y de lo que Juan contó en el chat. Todo lo marcado **[por confirmar]** es
-> suposición o falta.
+> Todo lo marcado **[por confirmar]** es suposición o falta.
+
+## Marca personal (lo que leen primero las skills de contenido)
+**Perfil:** Juan Rodríguez (juanchito.dev), programador que crea bots y herramientas web.
+**Canal principal:** Instagram (Meta): Reels.
+**Públicos:**
+1. Clientes B2B que necesitan automatizaciones (quieren saber qué tarea tediosa les quita un bot).
+2. Desarrolladores que buscan herramientas (quieren ver el código real y el truco).
+**Tono:** técnico pero accesible. Se muestra código real y soluciones funcionando en vivo.
+**Reglas de contenido:**
+- Cada función o script de bot terminado se documenta como Reel (skill `reel-de-funcion`).
+- Nada de explicaciones aburridas: el gancho va sobre productividad o sobre quitarse de encima una tarea tediosa.
 
 ## Product Overview
-**One-liner:** juanchito.dev hace herramientas web y bots que le ahorran trabajo a negocios pequeños; la primera es `pedidos`: tu catálogo en un link, y los pedidos te llegan directo a WhatsApp.
+**One-liner:** juanchito.dev hace bots y herramientas web que automatizan tareas tediosas; un ejemplo público es `pedidos`: tu catálogo en un link, y los pedidos te llegan directo a WhatsApp.
 **What it does:** El dueño arma su catálogo en un minuto y recibe un link. Sus clientes lo abren, eligen, y el pedido le llega por WhatsApp ya ordenado: productos, opciones, total, nombre y entrega. Sin servidor, sin base de datos, sin cuentas y sin comisiones.
 **Product category:** catálogo para WhatsApp / pedidos por WhatsApp / tienda sin comisiones. **[por confirmar]** cómo lo busca la gente ("catálogo WhatsApp", "menú digital", "link de pedidos").
 **Product type:** herramienta web gratuita (pedidos) + servicios de desarrollo de herramientas web y bots a la medida **[por confirmar]**.
@@ -27,7 +36,10 @@
 - Un emprendimiento manda el link a su lista de clientes cada vez que cambia el menú.
 
 ## Personas
-B2C/micro-negocio: una sola persona decide, usa y paga. No aplica.
+| Persona | Cares about | Challenge | Value we promise |
+|---------|-------------|-----------|------------------|
+| Dueño o gerente de operaciones (B2B) | Horas de su equipo, errores manuales | Tareas repetidas (copiar pedidos, responder lo mismo, pasar datos entre sistemas) | Un bot que hace esa tarea sola **[por confirmar casos reales]** |
+| Desarrollador | Código real, herramientas útiles, aprender trucos | Encontrar soluciones simples que funcionen sin montar infraestructura | Ver el código y la demo en vivo, y poder usarlo |
 
 ## Problems & Pain Points
 **Core problem:** los pedidos por WhatsApp llegan incompletos y desordenados; hay que preguntar precio, opciones y dirección una y otra vez.
@@ -91,7 +103,7 @@ B2C/micro-negocio: una sola persona decide, usa y paga. No aplica.
 - Launch: concreto, qué cambia para el negocio.
 - Errors: dice qué pasó y qué hacer ("este link no abre").
 - Sales: beneficios, no tecnología.
-- Social: **[por confirmar]**
+- Social (Instagram): técnico pero accesible; código real en pantalla y demo en vivo; gancho sobre la tarea tediosa que desaparece.
 **Terms we own:** "sin comisiones", "el catálogo viaja dentro del link".
 **Never use (and why):** "revolucionario", "solución integral" — suenan a relleno y no dicen nada.
 
@@ -114,8 +126,10 @@ B2C/micro-negocio: una sola persona decide, usa y paga. No aplica.
 *Decisions and tested lessons. Newest first. Keep it to about 20 active entries.*
 | Date | Learning | Evidence | Applies to | Status |
 |------|----------|----------|------------|--------|
-| | | | | |
+| 2026-11-09 | Instagram es el canal principal; cada función de bot terminada se vuelve Reel | Decisión de Juan | social, video, copywriting, content-strategy | active |
+| 2026-11-09 | Ganchos sobre productividad o tareas tediosas; nada de explicaciones largas | Decisión de Juan | social, video, ad-creative, copywriting | active |
 
 ## Changelog
 *Newest first. One line per revision: what changed and why.*
+- v2 (2026-11-09) — Reposicionado como marca personal (bots y herramientas web) en Instagram, para clientes B2B y devs; personas, tono social y reglas de contenido añadidos según Juan.
 - v1 (2026-11-09) — Initial context. Borrador desde el README de pedidos y el chat; faltan modelo de negocio, metas y lenguaje del cliente.

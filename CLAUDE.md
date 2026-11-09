@@ -17,6 +17,17 @@ En español, directo.
   `node .claude/skills/reverse-engineer-marketing/scripts/teardown.mjs`).
 - Las claves de API van en variables de entorno, nunca en el repo.
 
+## Contenido (Instagram)
+
+- Juan es programador y crea bots y herramientas web. Su canal principal es
+  Instagram, y le habla a clientes B2B que necesitan automatizaciones y a
+  devs que buscan herramientas. El tono es técnico pero accesible, con código
+  real y soluciones en vivo.
+- Cada vez que Juan termine una función o un script de un bot, se documenta
+  como Reel con la skill `reel-de-funcion`, sin que tenga que pedirlo.
+- Los ganchos van sobre productividad o sobre quitarse de encima una tarea
+  tediosa. Nada de explicaciones aburridas.
+
 ## Mantenimiento
 
 - Actualizar skills: `npx -y skills update -p -y`
