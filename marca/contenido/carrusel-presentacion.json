@@ -1,0 +1,23 @@
+{
+  "tipo": "carrusel",
+  "nombre": "carrusel-presentacion",
+  "slides": [
+    { "tipo": "portada", "kicker": "dev freelance · bogotá", "titulo": "webs, bots y\nherramientas\n*a medida*", "cuerpo": "Soy Juan. Si tu negocio necesita algo que viva en una pantalla, lo construyo." },
+    { "tipo": "texto", "numero": "01", "titulo": "nada de\n*plantillas*", "cuerpo": "Lo que necesites, hecho a la medida y **con tu identidad**: tu logo, tus colores, tu forma de vender." },
+    { "tipo": "lista", "titulo": "lo que\n*hago*", "items": [
+      "**Webs:** tiendas y páginas para vender, como sereno.",
+      "**Herramientas:** cosas que tu negocio usa a diario, como raspa.",
+      "**Bots:** que contestan, ordenan y avisan por ti.",
+      "**Animaciones:** para que tu marca se mueva."
+    ] },
+    { "tipo": "texto", "numero": "02", "titulo": "todo queda\na tu *nombre*", "cuerpo": "El dominio, el código y los pagos son tuyos. Te explico cómo funciona todo para que **no dependas de mí**." },
+    { "tipo": "lista", "titulo": "cómo\n*trabajo*", "items": [
+      "**Me cuentas tu idea:** qué vendes, a quién y qué quieres lograr.",
+      "**Maqueta en 2 días:** ves la portada antes de seguir.",
+      "**Me pasas el contenido:** textos y fotos.",
+      "**Online en 7 días** desde que tengo el contenido."
+    ] },
+    { "tipo": "texto", "foto": "juan.jpg", "titulo": "trabajas\n*directo* conmigo", "cuerpo": "Sin intermediarios. Tengo 22 años, estudio programación de software y uso **IA aplicada** en lo que construyo." },
+    { "tipo": "cierre", "titulo": "¿qué vamos\na *construir*?", "cuerpo": "Escríbeme por WhatsApp o por DM contándome tu idea.", "cta": "cotiza: link en la bio" }
+  ]
+}

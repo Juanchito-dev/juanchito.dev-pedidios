@@ -48,6 +48,9 @@
   .lista li b { font-family: "Anton"; font-weight: 400; font-size: 64px; color: var(--acido); line-height: 1; }
   .lista li strong { color: var(--tiza); }
 
+  /* foto (opcional en cualquier slide) */
+  .foto { width: 400px; height: 400px; border-radius: 50%; object-fit: cover; border: 10px solid var(--acido); }
+
   /* cierre */
   .cierre { justify-content: center; }
   .cierre .titulo { font-size: 132px; }
@@ -81,6 +84,12 @@ window.pintar = (s, i, total) => {
   for (let k = 0; k < total; k++) prog.append(el("i", k <= i ? "hecho" : ""));
   l.append(barra, prog);
 
+  if (s.foto) {
+    const img = el("img", "foto");
+    img.src = "../fotos/" + s.foto;
+    img.alt = "";
+    l.append(img);
+  }
   if (s.kicker) l.append(el("p", "kicker", s.kicker));
   if (s.tipo === "texto" && s.numero) l.append(el("p", "numero", s.numero));
   l.append(titulo(el("h1", "titulo"), s.titulo));

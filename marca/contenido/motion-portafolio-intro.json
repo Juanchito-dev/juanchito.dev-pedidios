@@ -1,0 +1,3 @@
+{ "tipo": "motion", "nombre": "motion-portafolio-intro", "escenas": [
+  { "tipo": "gancho", "kicker": "juanchito.dev_ · portafolio", "titulo": "así se ve\nuna web sin\n*plantilla*", "sub": "la hice de la marca al código", "dur": 2.6 }
+] }

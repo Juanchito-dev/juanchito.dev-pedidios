@@ -51,7 +51,7 @@ async function carrusel(navegador, pieza, salida) {
   const n = pieza.slides.length;
   for (let i = 0; i < n; i++) {
     await p.evaluate(([s, i, n]) => window.pintar(s, i, n), [pieza.slides[i], i, n]);
-    await p.evaluate(() => document.fonts.ready);
+    await p.evaluate(() => Promise.all([document.fonts.ready, ...[...document.images].map((i) => i.decode().catch(() => {}))]));
     const f = path.join(salida, `${String(i + 1).padStart(2, "0")}.png`);
     await p.locator("#lienzo").screenshot({ path: f });
     console.log("✓", path.relative(process.cwd(), f));
