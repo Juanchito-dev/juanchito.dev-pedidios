@@ -1,0 +1,10 @@
+{
+  "tipo": "motion",
+  "nombre": "motion-raspa-01",
+  "escenas": [
+    { "tipo": "gancho", "kicker": "código real #01 · raspa_", "titulo": "el premio\nlo decide el\n*servidor*", "sub": "un raspa y gana que no se puede trampear" },
+    { "tipo": "codigo", "titulo": "así *sortea*", "codigo": "// lib/firma.js\nexport function sortear(promo) {\n  if (randomInt(100) >= promo.g) return -1;\n  let tiro = randomInt(total);\n  for (let i = 0; i < promo.p.length; i++) {\n    tiro -= promo.p[i][1];\n    if (tiro < 0) return i;\n  }\n}" },
+    { "tipo": "texto", "titulo": "y cada código\nganador va\n*firmado*", "sub": "el negocio lo revisa antes de entregar" },
+    { "tipo": "cierre", "cta": "pruébalo: link en la bio" }
+  ]
+}

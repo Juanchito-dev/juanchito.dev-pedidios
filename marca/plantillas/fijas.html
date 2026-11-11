@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8" />
+<link rel="stylesheet" href="../tokens.css" />
+<style>
+  html, body { margin: 0; background: #000; }
+  #lienzo { position: relative; overflow: hidden; background: var(--asfalto); color: var(--tiza); font-family: "Archivo", sans-serif; }
+
+  /* portada de reel 1080x1920. El perfil la recorta a 3:4 (1080x1440 al centro):
+     todo lo importante va entre y=240 y y=1680. */
+  .reel { width: 1080px; height: 1920px; display: flex; flex-direction: column; justify-content: center; gap: 48px; padding: 0 96px; }
+  .reel .kicker { font-family: "Mono"; font-size: 38px; color: var(--acido); }
+  .reel .titulo { font-family: "Anton"; font-weight: 400; font-size: 168px; line-height: 0.9; }
+  .reel .pie { position: absolute; left: 96px; right: 96px; bottom: 300px; display: flex; justify-content: space-between; align-items: baseline; }
+  .reel .marca { font-family: "Anton"; font-size: 48px; }
+  .reel .serie { font-family: "Mono"; font-size: 30px; color: var(--humo); }
+  .reel .guia { position: absolute; left: 0; right: 0; top: 240px; height: 1440px; outline: 4px dashed var(--fuego); pointer-events: none; }
+
+  /* foto de perfil 1080x1080: se ve en círculo y diminuta */
+  .perfil { width: 1080px; height: 1080px; display: grid; place-items: center; }
+  .perfil .mono { font-family: "Anton"; font-size: 640px; line-height: 1; translate: 0 -10px; }
+  .perfil .mono .cursor { font-size: 1em; }
+
+  /* destacadas 1080x1920: sólo el círculo central (~ 1080 de ancho) se ve */
+  .destacada { width: 1080px; height: 1920px; display: grid; place-items: center; }
+  .destacada .anillo { width: 760px; height: 760px; border-radius: 50%; border: 10px solid var(--acido); display: grid; place-items: center; }
+  .destacada .palabra { font-family: "Anton"; font-size: 200px; line-height: 1; }
+  .destacada .palabra .cursor { font-size: 1em; }
+</style>
+</head>
+<body>
+<div id="lienzo" class="grano"></div>
+<script src="comun.js"></script>
+<script>
+window.pintar = (p) => {
+  const l = document.getElementById("lienzo");
+  l.replaceChildren();
+  l.className = "grano " + p.tipo;
+  if (p.tipo === "reel") {
+    if (p.kicker) l.append(el("p", "kicker", p.kicker));
+    l.append(titulo(el("h1", "titulo"), p.titulo));
+    const pie = el("div", "pie");
+    pie.append(marca(), el("span", "serie", p.serie || ""));
+    l.append(pie);
+    if (p.guia) l.append(el("div", "guia"));
+  }
+  if (p.tipo === "perfil") {
+    const m = el("p", "mono", "j");
+    m.append(el("span", "cursor", "_"));
+    l.append(m);
+  }
+  if (p.tipo === "destacada") {
+    const a = el("div", "anillo");
+    const w = el("p", "palabra", p.palabra);
+    w.append(el("span", "cursor", "_"));
+    a.append(w);
+    l.append(a);
+    // que la palabra quepa en el círculo
+    for (let t = 200; w.getBoundingClientRect().width > 580 && t > 60; t -= 8) w.style.fontSize = t + "px";
+  }
+};
+</script>
+</body>
+</html>

@@ -1,0 +1,14 @@
+{
+  "tipo": "fijas",
+  "nombre": "perfil",
+  "piezas": [
+    { "tipo": "perfil", "archivo": "foto-perfil" },
+    { "tipo": "destacada", "archivo": "destacada-bots", "palabra": "bots" },
+    { "tipo": "destacada", "archivo": "destacada-webs", "palabra": "webs" },
+    { "tipo": "destacada", "archivo": "destacada-herramientas", "palabra": "herramientas" },
+    { "tipo": "destacada", "archivo": "destacada-animaciones", "palabra": "animaciones" },
+    { "tipo": "destacada", "archivo": "destacada-hablemos", "palabra": "hablemos" },
+    { "tipo": "reel", "archivo": "portada-reel-raspa", "kicker": "herramientas_ / raspa", "titulo": "el premio\nlo decide el\n*servidor*", "serie": "código real #01" },
+    { "tipo": "reel", "archivo": "portada-reel-guia", "kicker": "herramientas_ / raspa", "titulo": "el premio\nlo decide el\n*servidor*", "serie": "código real #01", "guia": true }
+  ]
+}

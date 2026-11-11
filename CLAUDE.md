@@ -27,6 +27,10 @@ En español, directo.
   como Reel con la skill `reel-de-funcion`, sin que tenga que pedirlo.
 - Los ganchos van sobre productividad o sobre quitarse de encima una tarea
   tediosa. Nada de explicaciones aburridas.
+- **Identidad visual:** toda pieza de Instagram sale de `marca/` (colores,
+  fuentes y plantillas en `marca/README.md`). No se inventan colores ni
+  fuentes; carruseles, portadas y motion se renderizan con
+  `node marca/render.cjs marca/contenido/<pieza>.json`.
 
 ## Mantenimiento
 

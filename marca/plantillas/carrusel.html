@@ -1,0 +1,119 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8" />
+<link rel="stylesheet" href="../tokens.css" />
+<style>
+  html, body { margin: 0; background: #000; }
+  #lienzo {
+    position: relative; overflow: hidden;
+    width: 1080px; height: 1350px;
+    background: var(--asfalto); color: var(--tiza);
+    font-family: "Archivo", sans-serif; font-size: 40px; line-height: 1.38;
+    padding: 190px 96px 170px;
+    display: flex; flex-direction: column; justify-content: center; gap: 44px;
+  }
+  .barra { position: absolute; top: 64px; left: 96px; right: 96px; display: flex; justify-content: space-between; align-items: baseline; }
+  .marca { font-family: "Anton"; font-size: 44px; letter-spacing: 0.01em; }
+  .contador { font-family: "Mono"; font-size: 28px; color: var(--humo); }
+  .progreso { position: absolute; left: 96px; right: 96px; bottom: 80px; display: flex; gap: 12px; }
+  .progreso i { flex: 1; height: 8px; border-radius: 4px; background: var(--linea); }
+  .progreso i.hecho { background: var(--acido); }
+
+  .kicker { font-family: "Mono"; font-size: 30px; color: var(--acido); letter-spacing: 0.03em; }
+  .titulo { font-family: "Anton"; font-weight: 400; line-height: 0.98; letter-spacing: -0.005em; }
+  .cuerpo { color: var(--humo); max-width: 30ch; }
+  .cuerpo strong { color: var(--tiza); font-weight: 700; }
+
+  /* portada: el título manda (es la miniatura del perfil) */
+  .portada { justify-content: center; }
+  .portada .titulo { font-size: 150px; }
+  .portada .cuerpo { font-size: 42px; }
+  .desliza { position: absolute; right: 96px; bottom: 130px; font-family: "Grafiti"; font-size: 64px; color: var(--acido); rotate: -6deg; }
+
+  /* texto */
+  .texto .numero { font-family: "Anton"; font-size: 220px; line-height: 0.8; color: var(--linea); }
+  .texto .titulo { font-size: 104px; }
+
+  /* código */
+  .codigo .titulo { font-size: 88px; }
+  .codigo .codigo-bloque { font-size: 31px; line-height: 1.6; padding: 44px 48px; }
+  .codigo .archivo { font-family: "Mono"; font-size: 26px; color: var(--humo); margin-bottom: -24px; }
+  .codigo .cuerpo { font-size: 36px; }
+
+  /* lista */
+  .lista .titulo { font-size: 96px; }
+  .lista ol { list-style: none; display: grid; gap: 40px; }
+  .lista li { display: grid; grid-template-columns: 96px 1fr; align-items: baseline; color: var(--humo); }
+  .lista li b { font-family: "Anton"; font-weight: 400; font-size: 64px; color: var(--acido); line-height: 1; }
+  .lista li strong { color: var(--tiza); }
+
+  /* cierre */
+  .cierre { justify-content: center; }
+  .cierre .titulo { font-size: 132px; }
+  .cierre .cta { align-self: flex-start; background: var(--acido); color: var(--asfalto); font-weight: 700; font-size: 44px; padding: 26px 48px; border-radius: 999px; }
+  .cierre .handle { font-family: "Mono"; font-size: 34px; color: var(--tiza); }
+</style>
+</head>
+<body>
+<div id="lienzo" class="grano"></div>
+<script src="comun.js"></script>
+<script>
+/* pintar(slide, i, total): slide = { tipo, kicker?, titulo, cuerpo?, codigo?, archivo?, items?, cta?, handle? } */
+function cuerpo(texto) {
+  // **negrita** dentro del cuerpo
+  const p = el("p", "cuerpo");
+  String(texto).split(/(\*\*[^*]+\*\*)/).forEach((t) => {
+    if (!t) return;
+    p.append(t.startsWith("**") ? el("strong", null, t.slice(2, -2)) : document.createTextNode(t));
+  });
+  return p;
+}
+
+window.pintar = (s, i, total) => {
+  const l = document.getElementById("lienzo");
+  l.replaceChildren();
+  l.className = "grano " + s.tipo;
+
+  const barra = el("div", "barra");
+  barra.append(marca(), el("span", "contador", `${String(i + 1).padStart(2, "0")}/${String(total).padStart(2, "0")}`));
+  const prog = el("div", "progreso");
+  for (let k = 0; k < total; k++) prog.append(el("i", k <= i ? "hecho" : ""));
+  l.append(barra, prog);
+
+  if (s.kicker) l.append(el("p", "kicker", s.kicker));
+  if (s.tipo === "texto" && s.numero) l.append(el("p", "numero", s.numero));
+  l.append(titulo(el("h1", "titulo"), s.titulo));
+
+  if (s.tipo === "codigo") {
+    if (s.archivo) l.append(el("p", "archivo", s.archivo));
+    const pre = el("pre", "codigo-bloque");
+    s.codigo.split("\n").forEach((ln, k) => {
+      if (k) pre.append("\n");
+      pre.append(lineaCodigo(ln));
+    });
+    l.append(pre);
+    // que ninguna línea se salga del cuadro
+    for (let t = 31; pre.scrollWidth > pre.clientWidth && t > 20; t--) pre.style.fontSize = t + "px";
+  }
+  if (s.tipo === "lista") {
+    const ol = el("ol");
+    s.items.forEach((it, k) => {
+      const li = el("li");
+      const p = cuerpo(it);
+      p.className = "";
+      li.append(el("b", null, String(k + 1).padStart(2, "0")), p);
+      ol.append(li);
+    });
+    l.append(ol);
+  }
+  if (s.cuerpo) l.append(cuerpo(s.cuerpo));
+  if (s.tipo === "portada") l.append(el("p", "desliza", "desliza →"));
+  if (s.tipo === "cierre") {
+    if (s.cta) l.append(el("p", "cta", s.cta));
+    l.append(el("p", "handle", s.handle || "@juanchito.dev"));
+  }
+};
+</script>
+</body>
+</html>

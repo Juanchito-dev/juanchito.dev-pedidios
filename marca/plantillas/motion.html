@@ -1,0 +1,204 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8" />
+<link rel="stylesheet" href="../tokens.css" />
+<style>
+  html, body { margin: 0; background: #000; }
+  /* 1080x1920. La interfaz de Reels tapa ~250px arriba, ~420px abajo y ~130px a la derecha:
+     el contenido vive en la caja .segura. */
+  #lienzo { position: relative; overflow: hidden; width: 1080px; height: 1920px; background: var(--asfalto); color: var(--tiza); font-family: "Archivo", sans-serif; }
+  .escena { position: absolute; inset: 0; display: none; }
+  .segura { position: absolute; left: 96px; right: 150px; top: 260px; bottom: 440px; display: flex; flex-direction: column; justify-content: center; gap: 44px; }
+  .linea { display: block; overflow: hidden; padding-bottom: 0.06em; }
+  .linea > span { display: block; will-change: transform; }
+  .kicker { font-family: "Mono"; font-size: 38px; color: var(--acido); min-height: 1.3em; }
+  .titulo { font-family: "Anton"; font-weight: 400; font-size: 150px; line-height: 0.9; }
+  .titulo .grafiti { will-change: transform; }
+  .sub { font-size: 46px; line-height: 1.35; color: var(--humo); }
+  .titulo-codigo { font-family: "Anton"; font-weight: 400; font-size: 84px; line-height: 0.95; }
+  .codigo-bloque { font-size: 32px; line-height: 1.6; padding: 44px 44px; min-height: 520px; }
+  .tecla { display: inline-block; width: 0.6em; height: 1.15em; vertical-align: -0.2em; background: var(--acido); }
+  .marca-grande { font-family: "Anton"; font-size: 120px; line-height: 1; }
+  .cta { align-self: flex-start; background: var(--acido); color: var(--asfalto); font-weight: 700; font-size: 52px; padding: 30px 56px; border-radius: 999px; }
+  .handle { font-family: "Mono"; font-size: 40px; }
+  .barrido { position: absolute; inset: -2px; background: var(--acido); z-index: 10; }
+</style>
+</head>
+<body>
+<div id="lienzo" class="grano"></div>
+<script src="comun.js"></script>
+<script>
+/* ---------- tiempo y curvas (sin Date.now ni azar: cada fotograma depende sólo de t) ---------- */
+const lim = (x) => Math.min(1, Math.max(0, x));
+const sale = (x) => 1 - Math.pow(1 - lim(x), 5);                 // ≈ --out del sitio
+const rebote = (x) => { x = lim(x); const c = 1.9; return 1 + (c + 1) * Math.pow(x - 1, 3) + c * Math.pow(x - 1, 2); };
+const tramo = (t, desde, dura) => lim((t - desde) / dura);
+const BARRIDO = 0.36; // segundos de la transición en ácido
+
+function lineasTitulo(texto) {
+  const h = el("h1", "titulo");
+  String(texto).split("\n").forEach((ln) => {
+    const caja = el("span", "linea");
+    caja.append(titulo(el("span"), ln));
+    h.append(caja);
+  });
+  return h;
+}
+
+/* ---------- escenas ---------- */
+const TIPOS = {
+  gancho(e) {
+    const s = el("div", "segura");
+    const kicker = el("p", "kicker");
+    const h = lineasTitulo(e.titulo);
+    s.append(kicker, h);
+    if (e.sub) s.append(el("p", "sub", e.sub));
+    const sub = s.querySelector(".sub");
+    const lineas = [...h.querySelectorAll(".linea > span")];
+    const graf = h.querySelector(".grafiti");
+    return {
+      nodo: s,
+      dur: e.dur ?? 2.8,
+      pintar(t) {
+        kicker.textContent = (e.kicker || "").slice(0, Math.floor(t * 30));
+        lineas.forEach((ln, i) => (ln.style.transform = `translateY(${(1 - sale(tramo(t, 0.05 + i * 0.09, 0.7))) * 110}%)`));
+        if (graf) {
+          const g = tramo(t, 0.55, 0.5);
+          graf.style.transform = `scale(${0.2 + 0.8 * rebote(g)})`;
+          graf.style.opacity = g > 0 ? 1 : 0;
+        }
+        if (sub) {
+          const k = sale(tramo(t, 0.9, 0.6));
+          sub.style.opacity = k;
+          sub.style.transform = `translateY(${(1 - k) * 30}px)`;
+        }
+      },
+    };
+  },
+
+  codigo(e) {
+    const s = el("div", "segura");
+    const h = titulo(el("h2", "titulo-codigo"), e.titulo || "");
+    const pre = el("pre", "codigo-bloque");
+    s.append(h, pre);
+    const texto = e.codigo;
+    const cps = e.cps ?? 38; // caracteres por segundo
+    const empieza = 0.5;
+    const escribir = texto.length / cps;
+    // el tamaño se fija una vez, con el código completo: que ninguna línea se salga
+    s._ajustar = () => {
+      pre.textContent = texto + "  ";
+      for (let t = 32; pre.scrollWidth > pre.clientWidth && t > 20; t--) pre.style.fontSize = t + "px";
+      pre.style.minHeight = pre.getBoundingClientRect().height + "px";
+    };
+    return {
+      nodo: s,
+      dur: e.dur ?? empieza + escribir + 1.4,
+      pintar(t) {
+        const k = sale(tramo(t, 0, 0.5));
+        h.style.opacity = k;
+        h.style.transform = `translateY(${(1 - k) * 40}px)`;
+        const n = Math.floor(Math.max(0, t - empieza) * cps);
+        const visible = texto.slice(0, n);
+        pre.replaceChildren();
+        visible.split("\n").forEach((ln, i) => {
+          if (i) pre.append("\n");
+          pre.append(lineaCodigo(ln));
+        });
+        // el cursor parpadea cuando no está escribiendo
+        const escribiendo = n > 0 && n < texto.length;
+        if (escribiendo || Math.floor(t / 0.53) % 2 === 0) pre.append(el("span", "tecla"));
+      },
+    };
+  },
+
+  texto(e) {
+    const s = el("div", "segura");
+    const h = lineasTitulo(e.titulo);
+    s.append(h);
+    if (e.sub) s.append(el("p", "sub", e.sub));
+    const sub = s.querySelector(".sub");
+    const lineas = [...h.querySelectorAll(".linea > span")];
+    const graf = h.querySelector(".grafiti");
+    return {
+      nodo: s,
+      dur: e.dur ?? 2.4,
+      pintar(t) {
+        lineas.forEach((ln, i) => (ln.style.transform = `translateY(${(1 - sale(tramo(t, i * 0.08, 0.65))) * 110}%)`));
+        if (graf) graf.style.transform = `scale(${0.2 + 0.8 * rebote(tramo(t, 0.45, 0.5))})`;
+        if (sub) sub.style.opacity = sale(tramo(t, 0.7, 0.6));
+      },
+    };
+  },
+
+  cierre(e) {
+    const s = el("div", "segura");
+    const m = el("p", "marca-grande");
+    const letras = el("span");
+    const cur = el("span", "cursor", "_");
+    m.append(letras, cur);
+    const cta = el("p", "cta", e.cta || "link en la bio");
+    const handle = el("p", "handle", e.handle || "@juanchito.dev");
+    s.append(m, cta, handle);
+    const nombre = "juanchito.dev";
+    return {
+      nodo: s,
+      dur: e.dur ?? 3,
+      pintar(t) {
+        letras.textContent = nombre.slice(0, Math.floor(t / 0.045));
+        cur.style.opacity = Math.floor(t / 0.53) % 2 === 0 ? 1 : 0;
+        const c = tramo(t, 0.75, 0.55);
+        cta.style.transform = `scale(${rebote(c)})`;
+        cta.style.opacity = c > 0 ? 1 : 0;
+        handle.style.opacity = sale(tramo(t, 1.1, 0.5));
+      },
+    };
+  },
+};
+
+let escenas = [];
+let barrido;
+
+/* pintar({ escenas: [{ tipo, ... }] }) → duración total en segundos */
+window.pintar = (cfg) => {
+  const l = document.getElementById("lienzo");
+  l.replaceChildren();
+  let inicio = 0;
+  escenas = cfg.escenas.map((e) => {
+    const sc = TIPOS[e.tipo](e);
+    const caja = el("div", "escena");
+    caja.append(sc.nodo);
+    l.append(caja);
+    if (sc.nodo._ajustar) { caja.style.display = "block"; sc.nodo._ajustar(); caja.style.display = "none"; }
+    const r = { ...sc, caja, inicio };
+    inicio += sc.dur;
+    return r;
+  });
+  barrido = el("div", "barrido");
+  l.append(barrido);
+  window.renderAt(0);
+  return inicio;
+};
+
+window.renderAt = (t) => {
+  let actual = escenas[escenas.length - 1];
+  for (const s of escenas) if (t >= s.inicio && t < s.inicio + s.dur) { actual = s; break; }
+  for (const s of escenas) s.caja.style.display = s === actual ? "block" : "none";
+  actual.pintar(t - actual.inicio);
+
+  // barrido en ácido en cada corte: entra por la izquierda, sale por la derecha
+  let x = null;
+  for (const s of escenas.slice(1)) {
+    const d = t - s.inicio;
+    if (d > -BARRIDO / 2 && d < BARRIDO / 2) {
+      const k = (d + BARRIDO / 2) / BARRIDO; // 0..1
+      x = k < 0.5 ? -100 + sale(k * 2) * 100 : sale((k - 0.5) * 2) * 100;
+    }
+  }
+  barrido.style.display = x === null ? "none" : "block";
+  if (x !== null) barrido.style.transform = `translateX(${x}%)`;
+};
+</script>
+</body>
+</html>

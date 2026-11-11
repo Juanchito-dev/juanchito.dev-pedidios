@@ -43,6 +43,7 @@ Guárdalo en `trabajo/reels/AAAA-MM-DD-<nombre-corto>.md` con:
 4. **Plan de grabación:** qué archivo y qué líneas mostrar, qué comando correr para la demo, qué datos de prueba usar (nunca datos reales de clientes ni claves en pantalla).
 5. **Caption** de 2–4 líneas, la primera repite el gancho, más 5–8 hashtags en español e inglés mezclados según el público.
 6. **Pendientes:** todos los `[NEED: ...]`.
+7. **Piezas visuales con la marca** (ver `marca/README.md`): un JSON en `marca/contenido/` con el motion de apertura y cierre (`gancho` + `codigo` con las líneas reales + `cierre`) y la portada del reel (`fijas`, tipo `reel`). Renderízalos con `node marca/render.cjs` y revisa los fotogramas antes de entregar.
 
 Después del Reel, ofrece en una línea las piezas derivadas: carrusel con el código (skill `social`), versión para anuncio (skill `ad-creative`) o entrada en el calendario (skill `content-strategy`).
 

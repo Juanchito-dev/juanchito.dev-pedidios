@@ -1,0 +1,46 @@
+{
+  "tipo": "carrusel",
+  "nombre": "carrusel-raspa-01",
+  "slides": [
+    {
+      "tipo": "portada",
+      "kicker": "herramienta · raspa_",
+      "titulo": "hice un raspa\ny gana que\n*nadie* trampea",
+      "cuerpo": "Tus clientes raspan con el dedo desde un link. Quien gana te escribe por WhatsApp."
+    },
+    {
+      "tipo": "texto",
+      "numero": "01",
+      "titulo": "si el premio se\ndecide en el\nteléfono, se *ve*",
+      "cuerpo": "Cualquiera con las herramientas de desarrollo abiertas puede mirar si ganó **antes de raspar**."
+    },
+    {
+      "tipo": "codigo",
+      "titulo": "por eso sortea\nel *servidor*",
+      "archivo": "lib/firma.js",
+      "codigo": "export function sortear(promo) {\n  if (randomInt(100) >= promo.g) return -1;\n  const total = promo.p\n    .reduce((s, x) => s + x[1], 0);\n  let tiro = randomInt(total);\n  for (let i = 0; i < promo.p.length; i++) {\n    tiro -= promo.p[i][1];\n    if (tiro < 0) return i;\n  }\n}",
+      "cuerpo": "**randomInt** es azar criptográfico de Node. El teléfono sólo recibe el resultado."
+    },
+    {
+      "tipo": "texto",
+      "numero": "02",
+      "titulo": "cada código\nganador va\n*firmado*",
+      "cuerpo": "Lleva una firma **HMAC** atada a tu promoción y a su premio. El negocio lo revisa en su link privado antes de entregar."
+    },
+    {
+      "tipo": "lista",
+      "titulo": "así lo usa\nun *negocio*",
+      "items": [
+        "**Arma la promoción:** premios, cuántos ganan y hasta cuándo.",
+        "**Comparte el link** en tu bio, tus estados o un QR.",
+        "**Revisa el código** antes de entregar el premio."
+      ]
+    },
+    {
+      "tipo": "cierre",
+      "titulo": "pruébalo\n*gratis*",
+      "cuerpo": "¿Tu negocio necesita un bot o una herramienta a la medida? **Escríbeme.**",
+      "cta": "link en la bio"
+    }
+  ]
+}
