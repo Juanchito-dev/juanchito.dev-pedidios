@@ -1,0 +1,9 @@
+{
+  "tipo": "reel",
+  "nombre": "reel-portafolio",
+  "partes": [
+    { "escenas": [ { "tipo": "gancho", "kicker": "juanchito.dev_ · portafolio", "titulo": "así se ve\nuna web sin\n*plantilla*", "sub": "la hice de la marca al código", "dur": 2.6 } ] },
+    { "video": "salida/tomas-portafolio.mp4" },
+    { "escenas": [ { "tipo": "cierre", "cta": "cotiza la tuya: link en la bio", "dur": 3 } ] }
+  ]
+}

@@ -56,6 +56,34 @@ Escenas disponibles (`plantillas/motion.html`):
 
 Todas aceptan `dur` para cambiar la duración. El motion sirve para la apertura y el cierre del reel, o completo como reel sin cámara. Encima de la grabación de pantalla o de cámara se ponen los subtítulos en Archivo bold, en tiza, con la palabra clave en ácido.
 
+## Sonido
+
+Los reels salen con efectos de sonido **sincronizados con cada animación**, sintetizados en `sonido.cjs` (sin samples ni licencias, siempre suenan igual):
+
+| Sonido | Cuándo |
+|---|---|
+| `subida` | cada línea de título que sube |
+| `golpe` | la palabra en grafiti cae como un sello |
+| `tecla` / `enter` | cada carácter del código mientras se escribe |
+| `barrido` | el barrido en ácido entre escenas (viaja de izquierda a derecha) |
+| `desliza` | la página bajando en una grabación de sitio |
+| `tic` | cada letra de `juanchito.dev` en el cierre |
+| `pop` | la píldora del CTA |
+
+Van a −3 dB de pico para que la música de Instagram quepa encima: ponla al 20–30 %. Para un motion sin sonido, agrega `"sonido": false` al JSON.
+
+## Reel completo (motion + grabación)
+
+```json
+{ "tipo": "reel", "nombre": "reel-portafolio", "partes": [
+  { "escenas": [ { "tipo": "gancho", "titulo": "..." } ] },
+  { "video": "salida/tomas-portafolio.mp4" },
+  { "escenas": [ { "tipo": "cierre", "cta": "..." } ] }
+] }
+```
+
+Une las partes, pone un barrido sonoro en cada corte y usa los sonidos que `grabar-sitio.cjs` deja en `<video>.sonidos.json`.
+
 ## Carrusel
 
 Tipos de slide (`plantillas/carrusel.html`): `portada`, `texto` (con `numero`), `codigo` (con `archivo`), `lista` (`items`), `cierre` (`cta`). Cualquier slide acepta `"foto": "juan.jpg"` (de `marca/fotos/`), que sale en círculo con borde ácido. En `cuerpo` e `items`, `**así**` es negrita. En `titulo`, `\n` parte línea y `*así*` va en grafiti.
@@ -79,11 +107,7 @@ Necesita Node, Playwright con Chromium y ffmpeg (para motion). Un motion de 16 s
 node marca/grabar-sitio.cjs https://juanchito-dev.vercel.app/ marca/salida/tomas.mp4 --segundos 12 --paradas 0,0.22,0.39,0.55,0.92
 ```
 
-Graba en vertical, en vista de teléfono, bajando por la página con pausas en las `--paradas` (0 = arriba, 1 = abajo). Después se une con la apertura y el cierre del motion:
-
-```bash
-ffmpeg -i intro.mp4 -i tomas.mp4 -i cierre.mp4 -filter_complex "[0:v][1:v][2:v]concat=n=3:v=1:a=0[v]" -map "[v]" -c:v libx264 -pix_fmt yuv420p reel.mp4
-```
+Graba en vertical, en vista de teléfono, bajando por la página con pausas en las `--paradas` (0 = arriba, 1 = abajo). Después se une con la apertura y el cierre con un JSON de tipo `reel` (ver arriba).
 
 ## Muestras incluidas
 

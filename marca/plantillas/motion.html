@@ -60,6 +60,10 @@ const TIPOS = {
     return {
       nodo: s,
       dur: e.dur ?? 2.8,
+      sonidos: [
+        ...lineas.map((_, i) => ({ t: 0.05 + i * 0.09, tipo: "subida" })),
+        ...(graf ? [{ t: 0.55, tipo: "golpe" }] : []),
+      ],
       pintar(t) {
         kicker.textContent = (e.kicker || "").slice(0, Math.floor(t * 30));
         lineas.forEach((ln, i) => (ln.style.transform = `translateY(${(1 - sale(tramo(t, 0.05 + i * 0.09, 0.7))) * 110}%)`));
@@ -95,6 +99,11 @@ const TIPOS = {
     return {
       nodo: s,
       dur: e.dur ?? empieza + escribir + 1.4,
+      // una tecla por carácter, en el fotograma en que aparece (sin la sangría automática)
+      sonidos: [...texto].flatMap((c, k) => {
+        if (c === " " && (k === 0 || /^\s*$/.test(texto.slice(texto.lastIndexOf("\n", k - 1) + 1, k)))) return [];
+        return [{ t: empieza + (k + 1) / cps, tipo: c === "\n" ? "enter" : "tecla", vol: c === " " ? 0.6 : 1 }];
+      }),
       pintar(t) {
         const k = sale(tramo(t, 0, 0.5));
         h.style.opacity = k;
@@ -124,6 +133,10 @@ const TIPOS = {
     return {
       nodo: s,
       dur: e.dur ?? 2.4,
+      sonidos: [
+        ...lineas.map((_, i) => ({ t: i * 0.08, tipo: "subida" })),
+        ...(graf ? [{ t: 0.45, tipo: "golpe" }] : []),
+      ],
       pintar(t) {
         lineas.forEach((ln, i) => (ln.style.transform = `translateY(${(1 - sale(tramo(t, i * 0.08, 0.65))) * 110}%)`));
         if (graf) graf.style.transform = `scale(${0.2 + 0.8 * rebote(tramo(t, 0.45, 0.5))})`;
@@ -145,6 +158,10 @@ const TIPOS = {
     return {
       nodo: s,
       dur: e.dur ?? 3,
+      sonidos: [
+        ...[...nombre].map((_, k) => ({ t: (k + 1) * 0.045, tipo: "tic" })),
+        { t: 0.75, tipo: "pop" },
+      ],
       pintar(t) {
         letras.textContent = nombre.slice(0, Math.floor(t / 0.045));
         cur.style.opacity = Math.floor(t / 0.53) % 2 === 0 ? 1 : 0;
@@ -158,6 +175,9 @@ const TIPOS = {
 };
 
 let escenas = [];
+let señales = [];
+/* los sonidos del reel: [{ t, tipo, vol? }], sincronizados con las animaciones */
+window.sonidos = () => señales;
 let barrido;
 
 /* pintar({ escenas: [{ tipo, ... }] }) → duración total en segundos */
@@ -175,6 +195,10 @@ window.pintar = (cfg) => {
     inicio += sc.dur;
     return r;
   });
+  señales = escenas.flatMap((s, i) => [
+    ...(i ? [{ t: s.inicio - BARRIDO / 2, tipo: "barrido" }] : []),
+    ...(s.sonidos || []).map((x) => ({ ...x, t: s.inicio + x.t })),
+  ]);
   barrido = el("div", "barrido");
   l.append(barrido);
   window.renderAt(0);

@@ -57,6 +57,10 @@ async function main() {
   ff.stdin.end();
   await new Promise((ok, mal) => ff.on("close", (c) => (c === 0 ? ok() : mal(new Error("ffmpeg falló")))));
   await b.close();
+  // los sonidos de la grabación: un deslizamiento en cada bajada
+  const tramo = segundos / Math.max(1, tramos);
+  const señales = Array.from({ length: tramos }, (_, i) => ({ t: (i + quieto) * tramo, tipo: "desliza", dur: (1 - quieto) * tramo }));
+  require("node:fs").writeFileSync(salida + ".sonidos.json", JSON.stringify(señales));
   console.log(`\r✓ ${salida} (${segundos} s)`);
 }
 
