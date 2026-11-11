@@ -1,0 +1,333 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8" />
+<title>Bang Toys — propuesta</title>
+<link rel="stylesheet" href="../../../marca/tokens.css" />
+<style>
+  @page { size: 1920px 1080px; margin: 0; }
+  @media print { .grano::after { display: none; } }
+  html, body { margin: 0; background: #000; }
+  .slide {
+    position: relative; overflow: hidden;
+    width: 1920px; height: 1080px;
+    background: var(--asfalto); color: var(--tiza);
+    font-family: "Archivo", sans-serif; font-size: 34px; line-height: 1.4;
+    padding: 150px 140px 120px;
+    page-break-after: always; break-after: page;
+  }
+  .slide:last-child { page-break-after: auto; break-after: auto; }
+
+  /* marco común */
+  .marca { position: absolute; top: 56px; left: 140px; font-family: "Anton"; font-size: 40px; }
+  .num { position: absolute; top: 64px; right: 140px; font-family: "Mono"; font-size: 24px; color: var(--humo); }
+  .kicker { font-family: "Mono"; font-size: 28px; color: var(--acido); letter-spacing: 0.03em; margin-bottom: 28px; }
+  h1, h2 { font-family: "Anton"; font-weight: 400; line-height: 0.95; letter-spacing: -0.005em; }
+  h1 { font-size: 168px; }
+  h2 { font-size: 112px; }
+  .bajada { color: var(--humo); max-width: 30ch; margin-top: 36px; }
+  .bajada b, .humo b { color: var(--tiza); font-weight: 700; }
+  .fila { display: flex; gap: 80px; align-items: center; }
+
+  /* ---------- celular ---------- */
+  .cel {
+    width: 430px; height: 860px; border-radius: 64px; padding: 18px;
+    background: #1d1d22; border: 3px solid #2c2c33;
+    box-shadow: 0 60px 120px rgb(0 0 0 / 0.6), inset 0 0 0 2px #000;
+    flex: none;
+  }
+  .pantalla { position: relative; width: 100%; height: 100%; border-radius: 48px; overflow: hidden; background: #fbf7ee; color: #151412; font-size: 17px; line-height: 1.3; }
+  .isla { position: absolute; top: 14px; left: 50%; translate: -50% 0; width: 120px; height: 34px; border-radius: 20px; background: #000; }
+  .t-cab { display: flex; justify-content: space-between; align-items: center; padding: 64px 22px 14px; }
+  .t-logo { font-family: "Anton"; font-size: 34px; line-height: 1; }
+  .t-logo .bang { color: #e8412c; }
+  .t-carro { position: relative; width: 44px; height: 44px; border-radius: 50%; background: #151412; display: grid; place-items: center; color: var(--acido); font-family: "Anton"; font-size: 20px; }
+  .t-carro i { position: absolute; top: -4px; right: -4px; width: 22px; height: 22px; border-radius: 50%; background: #e8412c; color: #fff; font-style: normal; font-family: "Archivo"; font-weight: 700; font-size: 13px; display: grid; place-items: center; }
+  .t-busca { margin: 0 22px; padding: 12px 16px; border-radius: 14px; background: #ece6d8; color: #6b665d; font-size: 16px; }
+  .t-chips { display: flex; gap: 8px; padding: 14px 22px; flex-wrap: nowrap; overflow: hidden; }
+  .t-chips span { flex: none; padding: 8px 14px; border-radius: 999px; border: 1.5px solid #151412; font-weight: 700; font-size: 14px; }
+  .t-chips span.on { background: #151412; color: #fbf7ee; }
+  .t-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; padding: 4px 22px; }
+  .t-prod { border-radius: 16px; background: #fff; overflow: hidden; box-shadow: 0 2px 0 rgb(0 0 0 / 0.06); }
+  .t-img { height: 150px; display: grid; place-items: center; font-family: "Anton"; font-size: 44px; color: rgb(255 255 255 / 0.95); background-image: radial-gradient(rgb(255 255 255 / 0.18) 2px, transparent 2.5px); background-size: 14px 14px; }
+  .t-info { padding: 10px 12px 12px; }
+  .t-info p { font-weight: 700; font-size: 15px; }
+  .t-info small { display: block; color: #6b665d; font-size: 12px; margin-top: 2px; }
+  .t-info b { display: block; margin-top: 6px; font-family: "Anton"; font-weight: 400; font-size: 20px; }
+  .t-estado { display: inline-block; margin-top: 6px; padding: 3px 8px; border-radius: 6px; font-size: 11px; font-weight: 700; }
+  .disp { background: #e4f8c7; color: #2d5a00; }
+  .enc { background: #ffe5cc; color: #8a3b00; }
+  .t-boton { position: absolute; left: 22px; right: 22px; bottom: 26px; padding: 18px; border-radius: 999px; background: #151412; color: var(--acido); text-align: center; font-weight: 700; font-size: 18px; }
+
+  /* ---------- whatsapp ---------- */
+  .wa { width: 620px; border-radius: 36px; background: #0b141a; padding: 26px 28px 34px; box-shadow: 0 40px 100px rgb(0 0 0 / 0.55); flex: none; }
+  .wa-cab { display: flex; align-items: center; gap: 16px; padding-bottom: 22px; border-bottom: 1px solid #222d34; margin-bottom: 26px; }
+  .wa-foto { width: 58px; height: 58px; border-radius: 50%; background: #e8412c; display: grid; place-items: center; font-family: "Anton"; font-size: 26px; color: #fff; }
+  .wa-cab p { font-weight: 700; font-size: 26px; line-height: 1.1; }
+  .wa-cab small { display: block; color: #8696a0; font-size: 18px; font-weight: 400; }
+  .burbuja { margin-left: auto; width: 88%; background: #005c4b; color: #e9edef; border-radius: 22px 6px 22px 22px; padding: 22px 26px 16px; font-size: 24px; line-height: 1.45; white-space: pre-line; }
+  .burbuja .hora { display: block; text-align: right; color: #8fb8ad; font-size: 16px; margin-top: 6px; }
+
+  /* ---------- 01 portada ---------- */
+  .portada .fila { justify-content: space-between; height: 100%; }
+  .portada h1 { font-size: 176px; }
+  .portada .bajada { font-size: 36px; }
+  .sello { position: absolute; right: 660px; bottom: 130px; width: 210px; height: 210px; border-radius: 50%; border: 6px solid var(--acido); color: var(--acido); display: grid; place-items: center; text-align: center; font-family: "Grafiti"; font-size: 40px; line-height: 1; rotate: -14deg; }
+
+  /* ---------- 02 hoy ---------- */
+  .hoy-burbujas { display: grid; gap: 22px; margin-top: 56px; max-width: 900px; }
+  .hoy-burbujas p { justify-self: start; background: #1f2c33; color: #e9edef; border-radius: 6px 24px 24px 24px; padding: 20px 28px; font-size: 32px; }
+  .hoy-burbujas p:nth-child(2) { margin-left: 120px; }
+  .hoy-burbujas p:nth-child(3) { margin-left: 40px; }
+  .gran-pregunta { position: absolute; right: 140px; bottom: 90px; font-family: "Anton"; font-size: 520px; line-height: 0.8; color: #1a1a1f; }
+
+  /* ---------- 03 idea ---------- */
+  .pasos3 { display: grid; gap: 26px; max-width: 760px; }
+  .pasos3 li { list-style: none; display: grid; grid-template-columns: 110px 1fr; align-items: baseline; }
+  .pasos3 b { font-family: "Anton"; font-weight: 400; font-size: 72px; line-height: 0.9; color: var(--acido); }
+  .pasos3 strong { display: block; font-family: "Anton"; font-weight: 400; font-size: 48px; line-height: 1; margin-bottom: 8px; }
+  .pasos3 span { color: var(--humo); }
+  .flecha { font-family: "Grafiti"; color: var(--acido); font-size: 120px; rotate: -8deg; }
+
+  /* ---------- 04 lleva ---------- */
+  .lleva { display: grid; grid-template-columns: repeat(5, 1fr); gap: 22px; margin-top: 64px; }
+  .tarjeta { background: var(--carbon); border: 2px solid var(--linea); border-radius: 28px; padding: 30px 28px; min-height: 270px; display: flex; flex-direction: column; gap: 12px; }
+  .tarjeta i { font-style: normal; font-family: "Mono"; font-size: 22px; color: var(--acido); }
+  .tarjeta strong { font-family: "Anton"; font-weight: 400; font-size: 40px; line-height: 1; }
+  .tarjeta span { color: var(--humo); font-size: 24px; line-height: 1.35; }
+  .tarjeta.estrella { background: var(--acido); border-color: var(--acido); color: var(--asfalto); }
+  .tarjeta.estrella i, .tarjeta.estrella span { color: var(--asfalto); }
+
+  /* ---------- 05 no lleva ---------- */
+  .tachado { display: grid; gap: 26px; margin-top: 50px; max-width: 1000px; }
+  .tachado li { list-style: none; display: grid; gap: 2px; }
+  .tachado s { font-family: "Anton"; font-size: 64px; line-height: 1; color: var(--tiza); text-decoration-color: var(--fuego); text-decoration-thickness: 8px; }
+  .tachado span { color: var(--acido); font-family: "Mono"; font-size: 24px; }
+  .nota-lado { position: absolute; right: 140px; bottom: 120px; width: 520px; border-left: 4px solid var(--acido); padding-left: 32px; color: var(--humo); }
+  .nota-lado b { color: var(--acido); }
+
+  /* ---------- 06 necesito ---------- */
+  .necesito { display: grid; grid-template-columns: 1fr 1fr; gap: 26px 60px; margin-top: 60px; max-width: 1140px; }
+  .necesito li { list-style: none; display: grid; grid-template-columns: 56px 1fr; gap: 22px; align-items: start; }
+  .caja { width: 48px; height: 48px; border: 4px solid var(--acido); border-radius: 10px; margin-top: 4px; }
+  .necesito strong { display: block; font-family: "Anton"; font-weight: 400; font-size: 44px; line-height: 1.05; }
+  .necesito span { color: var(--humo); font-size: 26px; }
+  .foto-tips { position: absolute; right: 140px; top: 150px; width: 400px; background: var(--acido); color: var(--asfalto); border-radius: 30px; padding: 36px; rotate: 3deg; }
+  .foto-tips p:first-child { font-family: "Grafiti"; font-size: 54px; line-height: 1; margin-bottom: 16px; }
+  .foto-tips li { list-style: none; font-size: 26px; font-weight: 700; padding: 8px 0; border-top: 2px solid rgb(11 11 13 / 0.15); }
+
+  /* ---------- 07 cómo vamos ---------- */
+  .linea-tiempo { display: grid; grid-template-columns: repeat(4, 1fr); margin-top: 110px; position: relative; }
+  .linea-tiempo::before { content: ""; position: absolute; left: 30px; right: 30px; top: 30px; height: 6px; background: var(--linea); }
+  .hito { position: relative; padding-right: 40px; }
+  .punto { width: 66px; height: 66px; border-radius: 50%; background: var(--asfalto); border: 6px solid var(--acido); margin-bottom: 40px; }
+  .hito.tuyo .punto { border-color: var(--tiza); }
+  .hito.final .punto { background: var(--acido); }
+  .hito small { display: block; font-family: "Mono"; font-size: 24px; color: var(--acido); margin-bottom: 10px; }
+  .hito.tuyo small { color: var(--tiza); }
+  .hito strong { display: block; font-family: "Anton"; font-weight: 400; font-size: 50px; line-height: 1; margin-bottom: 12px; }
+  .hito span { color: var(--humo); font-size: 26px; }
+  .leyenda { position: absolute; left: 140px; bottom: 110px; display: flex; gap: 48px; font-family: "Mono"; font-size: 22px; color: var(--humo); }
+  .leyenda i { display: inline-block; width: 22px; height: 22px; border-radius: 50%; border: 4px solid var(--acido); vertical-align: -4px; margin-right: 12px; }
+  .leyenda i.t { border-color: var(--tiza); }
+
+  /* ---------- 08 costos ---------- */
+  .costos .fila { align-items: flex-end; gap: 120px; margin-top: 150px; }
+  .cero { font-family: "Anton"; font-size: 470px; line-height: 0.8; color: var(--tiza); position: relative; }
+  .cero .grafiti { position: absolute; left: 30px; top: -120px; font-size: 120px; }
+  .extras { display: grid; gap: 30px; padding-bottom: 30px; max-width: 760px; }
+  .extras div { border-top: 2px solid var(--linea); padding-top: 22px; }
+  .extras strong { display: block; font-family: "Anton"; font-weight: 400; font-size: 44px; line-height: 1.05; }
+  .extras span { color: var(--humo); font-size: 26px; }
+
+  /* ---------- 09 cierre ---------- */
+  .cambio { display: grid; grid-template-columns: repeat(3, 1fr); gap: 26px; margin-top: 56px; }
+  .cambio div { border: 2px solid var(--linea); border-radius: 28px; padding: 30px; }
+  .cambio b { display: block; font-family: "Anton"; font-weight: 400; font-size: 64px; color: var(--acido); line-height: 1; margin-bottom: 10px; }
+  .cambio span { color: var(--humo); font-size: 28px; }
+  .arrancamos { position: absolute; left: 140px; bottom: 110px; right: 140px; display: flex; justify-content: space-between; align-items: flex-end; }
+  .arrancamos h2 { font-size: 150px; }
+  .contacto { text-align: right; font-family: "Mono"; font-size: 28px; line-height: 1.6; }
+  .contacto .pill { display: inline-block; background: var(--acido); color: var(--asfalto); font-family: "Archivo"; font-weight: 700; font-size: 34px; padding: 22px 44px; border-radius: 999px; margin-bottom: 18px; }
+</style>
+</head>
+<body>
+
+<!-- 01 · portada -->
+<section class="slide portada grano">
+  <div class="marca">juanchito.dev<span class="cursor">_</span></div>
+  <div class="fila">
+    <div>
+      <p class="kicker">propuesta para Lucho · Bang Toys, Líbano</p>
+      <h1>bang toys<br>en el celular<br>de <span class="grafiti">todo Líbano</span></h1>
+      <p class="bajada">Una tienda online hecha a la medida: tus clientes ven lo que hay, arman el pedido y <b>te llega por WhatsApp</b>.</p>
+    </div>
+    <div class="cel">
+      <div class="pantalla">
+        <div class="isla"></div>
+        <div class="t-cab"><p class="t-logo"><span class="bang">bang</span> toys</p><div class="t-carro">→<i>3</i></div></div>
+        <p class="t-busca">Buscar: goku, hot wheels, stitch…</p>
+        <div class="t-chips"><span class="on">todo</span><span>anime</span><span>funko</span><span>hot wheels</span><span>peluches</span></div>
+        <div class="t-grid">
+          <div class="t-prod"><div class="t-img" style="background-color:#e8412c">DB</div><div class="t-info"><p>Funko Goku</p><small>Dragon Ball</small><span class="t-estado disp">disponible</span></div></div>
+          <div class="t-prod"><div class="t-img" style="background-color:#2a4bd7">HW</div><div class="t-info"><p>Hot Wheels</p><small>Mattel · 1:64</small><span class="t-estado disp">disponible</span></div></div>
+          <div class="t-prod"><div class="t-img" style="background-color:#f2a516">OP</div><div class="t-info"><p>Figura Luffy</p><small>One Piece</small><span class="t-estado enc">por encargo</span></div></div>
+          <div class="t-prod"><div class="t-img" style="background-color:#2f6b3f">ST</div><div class="t-info"><p>Peluche Stitch</p><small>Disney</small><span class="t-estado disp">disponible</span></div></div>
+        </div>
+        <div class="t-boton">pedir por whatsapp · 3</div>
+      </div>
+    </div>
+  </div>
+  <div class="sello">gratis<br>para ti</div>
+</section>
+
+<!-- 02 · hoy -->
+<section class="slide grano">
+  <div class="marca">juanchito.dev<span class="cursor">_</span></div>
+  <p class="num">01 / 08</p>
+  <p class="kicker">hoy</p>
+  <h2>para saber qué hay,<br>toca <span class="grafiti">ir o preguntar</span></h2>
+  <div class="hoy-burbujas">
+    <p>¿Tienen el Funko de Goku? 👀</p>
+    <p>¿Cuánto vale el peluche de Stitch?</p>
+    <p>¿Hay Hot Wheels nuevos?</p>
+  </div>
+  <p class="bajada" style="margin-top:56px">Tus videos muestran los estantes, pero nadie puede ver <b>qué hay, cuánto vale y pedirlo</b> sin escribirte uno por uno.</p>
+  <div class="gran-pregunta">?</div>
+</section>
+
+<!-- 03 · la idea -->
+<section class="slide grano">
+  <div class="marca">juanchito.dev<span class="cursor">_</span></div>
+  <p class="num">02 / 08</p>
+  <div class="fila" style="justify-content:space-between">
+    <div>
+      <p class="kicker">la idea</p>
+      <h2 style="margin-bottom:44px">tres pasos y<br>te <span class="grafiti">escriben</span></h2>
+      <ol class="pasos3">
+        <li><b>1</b><div><strong>ven el catálogo</strong><span>Por categoría, por personaje o buscando.</span></div></li>
+        <li><b>2</b><div><strong>arman el carrito</strong><span>Lo que quieren, cuántos y cómo lo reciben.</span></div></li>
+        <li><b>3</b><div><strong>te llega ordenado</strong><span>Un mensaje de WhatsApp con todo y el total.</span></div></li>
+      </ol>
+    </div>
+    <div class="wa">
+      <div class="wa-cab"><div class="wa-foto">B</div><p>Bang Toys Donde Lucho<small>mensaje de ejemplo</small></p></div>
+      <div class="burbuja">Hola Bang Toys, quiero pedir:
+• 1 × Funko Pop Goku
+• 2 × Hot Wheels
+• 1 × Peluche Stitch
+<b>Total: $___.___</b>
+Nombre: Camila
+Entrega: recoger en la tienda<span class="hora">4:12 p. m. ✓✓</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- 04 · lo que lleva -->
+<section class="slide grano">
+  <div class="marca">juanchito.dev<span class="cursor">_</span></div>
+  <p class="num">03 / 08</p>
+  <p class="kicker">lo que lleva</p>
+  <h2>todo esto, <span class="grafiti">a tu medida</span></h2>
+  <div class="lleva">
+    <div class="tarjeta"><i>01</i><strong>portada</strong><span>Lo nuevo, lo más pedido y dónde queda la tienda.</span></div>
+    <div class="tarjeta"><i>02</i><strong>catálogo</strong><span>Anime, Funko, Hot Wheels, bloques, peluches, camisetas…</span></div>
+    <div class="tarjeta"><i>03</i><strong>filtros y buscador</strong><span>Dragon Ball, Naruto, One Piece, Pokémon, Marvel…</span></div>
+    <div class="tarjeta"><i>04</i><strong>ficha de producto</strong><span>Fotos, precio y si está disponible, agotado o por encargo.</span></div>
+    <div class="tarjeta estrella"><i>05</i><strong>carrito a WhatsApp</strong><span>El pedido te llega listo: qué, cuánto y cómo lo entregas.</span></div>
+    <div class="tarjeta"><i>06</i><strong>visítanos</strong><span>Dirección, mapa, horario y botón de WhatsApp.</span></div>
+    <div class="tarjeta estrella"><i>07</i><strong>tu panel</strong><span>Subes productos y marcas agotados desde el celular.</span></div>
+    <div class="tarjeta"><i>08</i><strong>que te encuentren</strong><span>En Google, con tu tienda en el mapa.</span></div>
+    <div class="tarjeta"><i>09</i><strong>rápida en el celular</strong><span>Donde la va a ver casi todo el mundo.</span></div>
+    <div class="tarjeta"><i>10</i><strong>te enseño a usarla</strong><span>Una sesión de 1 hora y una guía corta.</span></div>
+  </div>
+</section>
+
+<!-- 05 · lo que no lleva -->
+<section class="slide grano">
+  <div class="marca">juanchito.dev<span class="cursor">_</span></div>
+  <p class="num">04 / 08</p>
+  <p class="kicker">lo que no lleva (por ahora)</p>
+  <ul class="tachado">
+    <li><s>pagos con tarjeta o PSE</s><span>van en una fase 2</span></li>
+    <li><s>cuentas de clientes</s><span>no hacen falta para pedir</span></li>
+    <li><s>inventario conectado a la caja</s><span>el stock lo marcas en el panel</span></li>
+    <li><s>facturación y cálculo de envíos</s><span>se cuadran por WhatsApp</span></li>
+    <li><s>fotos de producto y redes</s><span>eso lo pones tú (abajo te digo cómo)</span></li>
+  </ul>
+  <p class="nota-lado"><b>¿Por qué empezar así?</b> Para publicar rápido y sin trámites. Los pagos en línea piden documentos del negocio y cobran comisión por venta: los sumamos cuando la tienda ya esté andando.</p>
+</section>
+
+<!-- 06 · lo que necesito -->
+<section class="slide grano">
+  <div class="marca">juanchito.dev<span class="cursor">_</span></div>
+  <p class="num">05 / 08</p>
+  <p class="kicker">lo que necesito de ti</p>
+  <h2>tu parte</h2>
+  <ul class="necesito">
+    <li><div class="caja"></div><div><strong>tu logo</strong><span>En buena calidad (o lo hablamos).</span></div></li>
+    <li><div class="caja"></div><div><strong>40 productos</strong><span>En la hoja que te paso: nombre, precio, categoría y si hay.</span></div></li>
+    <li><div class="caja"></div><div><strong>sus fotos</strong><span>De 1 a 3 por producto.</span></div></li>
+    <li><div class="caja"></div><div><strong>datos de la tienda</strong><span>Horario, medios de pago y a dónde haces domicilio.</span></div></li>
+    <li><div class="caja"></div><div><strong>quién contesta</strong><span>El WhatsApp donde llegan los pedidos.</span></div></li>
+    <li><div class="caja"></div><div><strong>tu historia</strong><span>Un par de líneas: por qué "Donde Lucho".</span></div></li>
+  </ul>
+  <div class="foto-tips">
+    <p>fotos que venden</p>
+    <ul>
+      <li>fondo blanco o cartulina</li>
+      <li>luz de ventana, sin flash</li>
+      <li>producto centrado</li>
+      <li>con caja y sin caja</li>
+    </ul>
+  </div>
+</section>
+
+<!-- 07 · cómo vamos -->
+<section class="slide grano">
+  <div class="marca">juanchito.dev<span class="cursor">_</span></div>
+  <p class="num">06 / 08</p>
+  <p class="kicker">cómo vamos</p>
+  <h2>de la idea a <span class="grafiti">publicada</span></h2>
+  <div class="linea-tiempo">
+    <div class="hito tuyo"><div class="punto"></div><small>tú</small><strong>me pasas logo,<br>lista y datos</strong><span>Con eso arranco.</span></div>
+    <div class="hito"><div class="punto"></div><small>2 días después</small><strong>ves la<br>maqueta</strong><span>Portada y catálogo. Si algo no te gusta, se ajusta ahí.</span></div>
+    <div class="hito tuyo"><div class="punto"></div><small>tú</small><strong>fotos de los<br>40 productos</strong><span>Con la guía de fotos.</span></div>
+    <div class="hito final"><div class="punto"></div><small>7 días después</small><strong>tienda<br>publicada</strong><span>Y te enseño a usar tu panel.</span></div>
+  </div>
+  <div class="leyenda"><span><i class="t"></i>lo haces tú</span><span><i></i>lo hago yo</span></div>
+</section>
+
+<!-- 08 · costos -->
+<section class="slide costos grano">
+  <div class="marca">juanchito.dev<span class="cursor">_</span></div>
+  <p class="num">07 / 08</p>
+  <p class="kicker">cuánto cuesta</p>
+  <div class="fila">
+    <div class="cero">$0<span class="grafiti">regalo</span></div>
+    <div class="extras">
+      <div><strong>mi trabajo: nada</strong><span>Diseño, código, publicación y enseñarte a usarla.</span></div>
+      <div><strong>dominio propio: opcional</strong><span>Algo como bangtoys.com.co, a tu nombre. Se paga una vez al año al proveedor.</span></div>
+      <div><strong>alojamiento: lo resuelvo</strong><span>Hay opciones gratis para tiendas. Lo dejo listo antes de publicar.</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- 09 · a cambio + cierre -->
+<section class="slide grano">
+  <div class="marca">juanchito.dev<span class="cursor">_</span></div>
+  <p class="num">08 / 08</p>
+  <p class="kicker">lo único que te pido</p>
+  <div class="cambio">
+    <div><b>mostrarla</b><span>En mi portafolio y en mi Instagram.</span></div>
+    <div><b>tu opinión</b><span>Un testimonio corto cuando esté publicada.</span></div>
+    <div><b>un dato</b><span>En un par de meses: cuántos pedidos llegaron por la web.</span></div>
+  </div>
+  <div class="arrancamos">
+    <h2>¿<span class="grafiti">arrancamos</span>?</h2>
+    <div class="contacto"><span class="pill">escríbeme por WhatsApp</span><br>+57 322 282 5074<br>@juanchito.dev</div>
+  </div>
+</section>
+
+</body>
+</html>
