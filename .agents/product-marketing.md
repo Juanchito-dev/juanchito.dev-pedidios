@@ -1,13 +1,16 @@
 # Product Marketing Context
 
-**Document version:** v2
+**Document version:** v3
 **Last updated:** 2026-11-09
 
 > Todo lo marcado **[por confirmar]** es suposición o falta.
 
 ## Marca personal (lo que leen primero las skills de contenido)
 **Perfil:** Juan Rodríguez (juanchito.dev), programador que crea bots y herramientas web.
-**Canal principal:** Instagram (Meta): Reels.
+**Canal principal:** Instagram (Meta): Reels, @juanchito.dev.
+**Sitios:** https://juanchito-dev.vercel.app/ (portafolio; el dominio juanchito.dev NO está registrado, no enlazarlo) · raspa: https://juanchitodev-raspa.vercel.app/
+**Contacto B2B:** WhatsApp https://wa.me/573222825074
+**Promesa del portafolio:** "Webs, herramientas, bots y animaciones a la medida. Nada de plantillas: el dominio, el código y los pagos quedan a tu nombre."
 **Públicos:**
 1. Clientes B2B que necesitan automatizaciones (quieren saber qué tarea tediosa les quita un bot).
 2. Desarrolladores que buscan herramientas (quieren ver el código real y el truco).
@@ -131,5 +134,6 @@
 
 ## Changelog
 *Newest first. One line per revision: what changed and why.*
+- v3 (2026-11-11) — Sitios reales, contacto por WhatsApp y promesa del portafolio; aviso de que juanchito.dev no está registrado.
 - v2 (2026-11-09) — Reposicionado como marca personal (bots y herramientas web) en Instagram, para clientes B2B y devs; personas, tono social y reglas de contenido añadidos según Juan.
 - v1 (2026-11-09) — Initial context. Borrador desde el README de pedidos y el chat; faltan modelo de negocio, metas y lenguaje del cliente.
